@@ -3,8 +3,8 @@ import locationWiseScript, { setScriptLocal } from "./locationWiseScript";
 import createScript from "./createScript";
 
 let contactId = "";
-
-setScriptLocal();
+const url = new URL(location.href);
+setScriptLocal(url.pathname.split("/")[3]);
 
 const customTabContent = document.createElement("div");
 customTabContent.classList.add("custom-tab-content", "tab-content");
@@ -12,7 +12,7 @@ customTabContent.style.padding = "2rem";
 
 const customTabClickEvent = (tabItem, script, tabContent) => {
   tabItem.addEventListener("click", (e) => {
-    const contactScript = createScript(script.Script);
+    const contactScript = createScript(script.script);
     customTabContent.innerHTML = `<div class="script-content">${contactScript}</div>`;
     tabContent.style.display = "none";
     customTabContent.style.display = "block";
@@ -67,7 +67,8 @@ const addScriptTab = async (route) => {
   contactId = route.params["contact_id"];
 
   const scripts = await locationWiseScript(route.params.location_id);
-  const firstScript = scripts[scripts.length - 1].Script;
+  const firstScript = scripts[scripts.length - 1].script;
+
   if (!scripts.length > 0) return;
 
   const tabSelector = ".hl_contact-details-right-tabs";
@@ -81,10 +82,10 @@ const addScriptTab = async (route) => {
   if (scripts.length > 0 && !navTabs.dataset.customTabs) {
     scripts.forEach((script) => {
       const tabItem = document.createElement("li");
-      tabItem.dataset.customTabItem = script.ScriptID;
+      tabItem.dataset.customTabItem = script.id;
       tabItem.classList.add("nav-item", "custom-tab-item");
       tabItem.innerHTML = `
-      <a id=${script.ScriptID} data-toggle="tab"  role="tab" aria-selected="false" class="nav-link">${script.ScriptName}</a> 
+      <a id=${script.id} data-toggle="tab"  role="tab" aria-selected="false" class="nav-link">${script.name}</a> 
       `;
 
       customTabClickEvent(tabItem, script, tabContent);

@@ -1,8 +1,9 @@
 import getScriptData from "./api";
 
-export const setScriptLocal = async () => {
+export const setScriptLocal = async (locationId) => {
   localStorage.removeItem("sheetScript");
-  const scripts = (await getScriptData()) || [];
+  const scripts = (await getScriptData(locationId)) || [];
+  console.log(scripts);
   localStorage.setItem("sheetScript", JSON.stringify(scripts));
   return scripts;
 };
@@ -12,15 +13,11 @@ const locationWiseScript = async (locationId) => {
   const scripts = JSON.parse(localStorage.getItem("sheetScript"));
 
   if (scripts) {
-    locationScript = scripts.filter((script) => {
-      return script.LocationIds.split(",").includes(locationId);
-    });
+    locationScript = scripts;
     return locationScript;
   } else {
-    const serverScript = await setScriptLocal();
-    locationScript = serverScript.filter((script) => {
-      return script.LocationIds.split(",").includes(locationId);
-    });
+    const serverScript = await setScriptLocal(locationId);
+    locationScript = serverScript;
     return locationScript;
   }
 };

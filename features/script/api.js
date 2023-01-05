@@ -1,10 +1,13 @@
-const url = `https://script.google.com/macros/s/AKfycbyPV4_uBNty9EQvATRu36gB_mZ-U93lzBf0kyzukz2GbUtO_YzjUEKRgVpv5Gvi7eK8og/exec`;
+let url = `https://us-central1-zeepo-dashboard-manager.cloudfunctions.net/api/script`;
 
-const getScriptData = async () => {
+const getScriptData = async (locationid) => {
+  url = `${url}/${locationid}`;
   const response = await fetch(url);
   const result = await response.json();
-  const script = result[0].data;
-  return script;
+  console.log(url);
+  console.log(result);
+
+  return result;
 };
 
 export default getScriptData;
