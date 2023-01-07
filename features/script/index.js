@@ -1,8 +1,8 @@
 import getElementsByFn from "../../utils/getElementsByFn";
 import locationWiseScript, { setScriptLocal } from "./locationWiseScript";
 import createScript from "./createScript";
+import state from "./state";
 
-let contactId = "";
 const url = new URL(location.href);
 setScriptLocal(url.pathname.split("/")[3]);
 
@@ -35,7 +35,6 @@ const addDefultTabItemCustomEvent = (rightSideElement, tabContent) => {
 
 const apendCustomTabContent = (rightSideElementTab) => {
   if (customTabContent.isConnected) return;
-
   rightSideElementTab.append(customTabContent);
 };
 
@@ -63,12 +62,11 @@ const removeAllActiveClass = (rightSideElement) => {
 
 const addScriptTab = async (route) => {
   if (!route.params["contact_id"]) return;
-  if (contactId === route.params["contact_id"]) return;
-  contactId = route.params["contact_id"];
+  if (state.contactId === route.params["contact_id"]) return;
+  state.contactId = route.params["contact_id"];
 
   const scripts = await locationWiseScript(route.params.location_id);
   const firstScript = scripts[scripts.length - 1].script;
-
   if (!scripts.length > 0) return;
 
   const tabSelector = ".hl_contact-details-right-tabs";

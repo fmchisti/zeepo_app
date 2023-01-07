@@ -4,9 +4,6 @@ const getScriptData = async (locationid) => {
   url = `${url}/${locationid}`;
   const response = await fetch(url);
   const result = await response.json();
-  console.log(url);
-  console.log(result);
-
   return result;
 };
 

@@ -7,6 +7,9 @@ const rander = (e) => {
   route.locationId = mainRoute?.params["location_id"];
   route.path = mainRoute?.path;
   route.activePage = mainRoute?.name;
+
+  console.log("Yes!!!!!");
+  console.log(route);
   routeWiseActionCreate(route);
 };
 
