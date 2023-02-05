@@ -3,6 +3,8 @@ import { viewAddress } from "./viewMap";
 import getElementsByFn from "../../utils/getElementsByFn";
 import viewMap from "./viewMap";
 
+let cloneInput;
+
 let options = {
   types: ["address"],
 };
@@ -20,9 +22,15 @@ const componentForm = {
 
 const addGoogleAddressAutoComplete = (fields) => {
   const viewMapElement = viewMap();
-  const cloneInput = fields["Street Address"].cloneNode(true);
-  cloneInput.id = "full_address_input";
-  cloneInput.placeholder = "Search your address";
+
+  if (!cloneInput) {
+    cloneInput = fields["Street Address"].cloneNode(true);
+    cloneInput.id = "full_address_input";
+    cloneInput.placeholder = "Search your address";
+  }
+
+  if (cloneInput.isConnected) return;
+
   fields["Street Address"].parentElement.prepend(cloneInput);
   fields["Street Address"].parentElement.prepend(viewMapElement);
   fields["Street Address"].style.display = "none";
@@ -86,7 +94,7 @@ function updateInput(input, value) {
 
 async function updateCountry(country) {
   const countrys = await getElementsByFn(
-    ".hl_contact-details-left .dropdown-menu li a"
+    ".hl_contact-details-left .dropdown-menu li a",
   );
 
   [...countrys].forEach((cnt) => {

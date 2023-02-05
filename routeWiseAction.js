@@ -3,7 +3,7 @@ import addScriptTab from "./features/script";
 import state from "./features/script/state";
 import addressAutoComplete from "./features/address_auto_complete";
 
-const locationIdAccess = ["cnrAk8VllnCjCwLobuut"];
+const locationIdAccess = ["vJVPkXKI0ujMBULtlF3Q"];
 
 const routeWiseActionCreate = (route) => {
   if (!route) return;
@@ -11,7 +11,7 @@ const routeWiseActionCreate = (route) => {
 
   switch (route?.activePage) {
     case "contact_detail-v2":
-      addScriptTab(route);
+      addressAutoComplete(route);
       break;
     case "smart-list-v2":
       state.contactId = "";
