@@ -23,14 +23,11 @@ const componentForm = {
 const addGoogleAddressAutoComplete = (fields) => {
   const viewMapElement = viewMap();
 
-  if (!cloneInput) {
-    cloneInput = fields["Street Address"].cloneNode(true);
-    cloneInput.id = "full_address_input";
-    cloneInput.placeholder = "Search your address";
-  }
+  if (cloneInput?.isConnected) cloneInput.remove();
 
-  if (cloneInput.isConnected) return;
-
+  cloneInput = fields["Street Address"].cloneNode(true);
+  cloneInput.id = "full_address_input";
+  cloneInput.placeholder = "Search your address";
   fields["Street Address"].parentElement.prepend(cloneInput);
   fields["Street Address"].parentElement.prepend(viewMapElement);
   fields["Street Address"].style.display = "none";
